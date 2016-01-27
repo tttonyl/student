@@ -2,7 +2,7 @@ from mrjob.job import MRJob
 import heapq, csv
 
 
-
+TOPN=10
 cols = 'Name,JobTitle,AgencyID,Agency,HireDate,AnnualSalary,GrossPay'.split(",")
 
 class salarymax(MRJob):
@@ -23,7 +23,7 @@ class salarymax(MRJob):
                 self.increment_counter("warn", "missing gross", 1)
 
     def reducer(self, key, values):
-        for p in heapq.nlargest(10,values):
+        for p in heapq.nlargest(TOPN,values):
             yield key, p
 
     combiner = reducer
