@@ -1,6 +1,8 @@
 from mrjob.job import MRJob
 import heapq, csv
 
+
+
 cols = 'Name,JobTitle,AgencyID,Agency,HireDate,AnnualSalary,GrossPay'.split(",")
 
 class salarymax(MRJob):
