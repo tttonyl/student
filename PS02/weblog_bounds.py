@@ -1,8 +1,6 @@
 #!/usr/bin/env python2
 
-# This is the final wordcount program.
-# the mapper outputs <word,1>
-# the reducer receives <word,(1,1,1,...)> and outputs <word,COUNT>
+# Print the min and max datetime for each file in the weblog directory
 
 import mrjob
 from mrjob.job import MRJob
@@ -18,8 +16,8 @@ class WeblogBounds(MRJob):
         # parse the weblog input line
         log = Weblog(line)      
         
-        # output <filename,date>
-        yield filename,log.date
+        # output <filename,datetime>
+        yield filename,log.datetime
 
 
     def reducer(self, key, values):
