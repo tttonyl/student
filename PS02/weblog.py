@@ -14,7 +14,7 @@ except ImportError as e:
 
 
 class Weblog(object):
-    __slots__ = ['ip','timestamp','request','result','user','agent',
+    __slots__ = ['ipaddr','timestamp','request','result','user','agent',
                  'referrer','url','date','time','datetime']
     clf_regex = '([(\d\.)]+) [^ ]+ [^ ]+ \[(.*)\] "(.*)" (\d+) [^ ]+ ("(.*)")? ("(.*)")?'
     clf_parser = re.compile(clf_regex)
@@ -22,7 +22,7 @@ class Weblog(object):
         m = self.clf_parser.match(line)
         if not m:
             raise ValueError("invalid logfile line: "+line)
-        self.ip = m.group(1)
+        self.ipaddr = m.group(1)
         self.timestamp = m.group(2)
         self.request = m.group(3)
         self.result = m.group(4)
