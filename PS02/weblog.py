@@ -6,10 +6,16 @@
 
 import re              # bring in regular expression package
 from dateutil import parser
+# Import pytest if we have it available
+try:
+    import pytest
+except ImportError as e:
+    pass
+
 
 class Weblog(object):
     __slots__ = ['ip','timestamp','request','result','user','agent',
-                 'referrer','url','date']
+                 'referrer','url','date','time','datetime']
     clf_regex = '([(\d\.)]+) [^ ]+ [^ ]+ \[(.*)\] "(.*)" (\d+) [^ ]+ ("(.*)")? ("(.*)")?'
     clf_parser = re.compile(clf_regex)
     def __init__(self,line):
@@ -24,10 +30,25 @@ class Weblog(object):
         self.agent = m.group(6)
         self.referrer = m.group(7)
         self.url = self.request.split(" ")[1]
-        self.date = parser.parse(self.timestamp.replace(":", " ", 1)).isoformat()
+        self.datetime = parser.parse(self.timestamp.replace(":", " ", 1)).isoformat()
+        self.date = self.datetime[0:10]
+        self.time = self.datetime[11:]
         
+# Tests
+# test with python -m unittest
+demo_line1 = '172.16.0.3 - - [25/Sep/2002:14:04:19 +0200] "GET /hello.html HTTP/1.1" 401 - "" "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.1) Gecko/20020827"'
+import unittest
+class TestWeblog(unittest.TestCase):
+    def test_parser(self):
+        obj = Weblog(demo_line1)
+        self.assertEqual(obj.ip,"172.16.0.3")
+        self.assertEqual(obj.timestamp,parser.parse("25-Sep-2002 14:14:19 +0200"))
+        self.assertEqual(obj.request,"GET /hello.html HTTP/1.1")
+        self.assertEqual(obj.result,401)
+        self.assertEqual(obj.agent,"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.1) Gecko/20020827")
+        
+
 # test the parser
 if __name__=="__main__":
-    line = '172.16.0.3 - - [25/Sep/2002:14:04:19 +0200] "GET /hello.html HTTP/1.1" 401 - "" "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.1) Gecko/20020827"'
-    a = WeblogParser(line)
-    print("url: %s  date: %s" % (a.url,a.date))
+    a = Weblog(demo_line1)
+    print("url: %s  date: %s  time: %s  datetime: %s" % (a.url,a.date,a.time,a.datetime))
