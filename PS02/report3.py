@@ -8,7 +8,7 @@ from mrjob.job import MRJob
 from weblog import Weblog       # imports class defined in weblog.py
 import os
 
-class WeblogBounds(MRJob):
+class URLTally(MRJob):
     def mapper(self, _, line):
 
         # add your code here to extract the wiki page from line and yield the <key,value>
@@ -21,4 +21,4 @@ class WeblogBounds(MRJob):
 
 
 if __name__=="__main__":
-    WeblogBounds.run()
+    URLTally.run()
