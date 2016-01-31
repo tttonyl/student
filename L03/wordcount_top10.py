@@ -1,38 +1,43 @@
-# Implement wordcount as a 2-step mapreduce job
-# 
+#!/usr/bin/env python2
 
+# This is the final wordcount program.
+# Job #1:
+# the mapper outputs <word,1>
+# the reducer receives <word,(1,1,1,...)> and outputs <word,COUNT>
+# Job #2:
+# The mapper outputs ("TopN",(word,COUNT))
+# The reducer outputs the TopN
+
+import mrjob,os
 from mrjob.job import MRJob
 from mrjob.step import MRStep
 import heapq
 
 TOPN=10
-class WordcountTop10(MRJob):
-    def wordcount_mapper(self, _, line):
-        for word in line.strip().split():
-            word = filter(str.isalpha,word.lower())
-            yield word,1
+class WordCountTopN(MRJob):
+    def mapper(self, _, line):
+        for word in line.strip().lower().split():
+            yield filter(str.isalpha,word),1
+        
+    def reducer(self, word, counts):
+        yield word, sum(counts)
 
-    def wordcount_reducer(self, key, values):
-        yield key, sum(values)
+    def topN_mapper(self,word,count):
+        yield "Top"+str(TOPN), (count,word)
 
-    def top10_mapper(self, word, count):
-        # notice that we put the counts first!
-        yield "Top10", (count,word) 
-
-    def top10_reducer(self, key, values):
-        for value in heapq.nlargest(TOPN,values):
-            yield key,value  
-
+    def topN_reducer(self,_,countsAndWords):
+        for countAndWord in heapq.nlargest(TOPN,countsAndWords):
+            yield _,countAndWord
+        
     def steps(self):
         return [
-            MRStep(mapper=self.wordcount_mapper,
-                   combiner=self.wordcount_reducer,
-                   reducer=self.wordcount_reducer),
+            MRStep(mapper=self.mapper,
+                   reducer=self.reducer),
 
-            MRStep(mapper=self.top10_mapper,
-                   combiner=self.top10_reducer,
-                   reducer=self.top10_reducer) ]
+            MRStep(mapper=self.topN_mapper,
+                   reducer=self.topN_reducer) ]
+
+
 
 if __name__=="__main__":
-    WordcountTop10.run()
-
+    WordCountTopN.run()

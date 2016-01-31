@@ -42,10 +42,8 @@ class salaryavg(MRJob):
     def steps(self):
         return [
             MRStep(mapper=self.avgmapper,
-                   combiner=self.avgreducer,
                    reducer=self.avgreducer),
             MRStep(mapper=self.ttmapper,
-                   combiner=self.ttreducer,
                    reducer=self.ttreducer) ]
 
 if __name__=="__main__":
