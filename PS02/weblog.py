@@ -28,8 +28,11 @@ class Weblog(object):
         self.result = int(m.group(4))
         self.user = m.group(5)
         self.referrer = m.group(6)
-        self.agent = m.group(7).replace('"','')
-        self.url = self.request.split(" ")[1]
+        self.agent = m.group(7)
+        if self.agent:
+            self.agent = self.agent.replace('"','')
+        request_fields = self.request.split(" ")
+        self.url = request_fields[2] if len(request_fields)>2 else ""
         self.datetime = parser.parse(self.timestamp.replace(":", " ", 1)).isoformat()
         self.date = self.datetime[0:10]
         self.time = self.datetime[11:]
