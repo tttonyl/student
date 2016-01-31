@@ -33,11 +33,9 @@ class WeblogURLTop10(MRJob):
     def steps(self):
         return [
             MRStep(mapper=self.mapper,
-                   combiner=self.reducer,
                    reducer=self.reducer),
 
             MRStep(mapper=self.top10_mapper,
-                   combiner=self.top10_reducer,
                    reducer=self.top10_reducer) ]
 
 if __name__=="__main__":

@@ -28,7 +28,7 @@ class Weblog(object):
         self.request = m.group(3)
         self.result = int(m.group(4))
         self.user = m.group(5)
-        self.referrer = m.group(6)
+        self.referrer = m.group(6) 
         self.agent = m.group(7)
         if self.agent:
             self.agent = self.agent.replace('"','')
