@@ -10,3 +10,6 @@ demo3:
 demo4:
 	python wordcount_top10.py -r inline ../L02/hamlet.txt
 
+demo5:
+	/bin/rm -f join_data/*~	#make sure no temp files present
+	python join_demo.py -r inline join_data/
