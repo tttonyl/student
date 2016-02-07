@@ -15,6 +15,7 @@ optional = []
 from subprocess import Popen,PIPE,call
 
 def build_zip(fname):
+    required_missing = 0
     print("Building {0}".format(fname))
     z = zipfile.ZipFile(fname,"w",zipfile.ZIP_DEFLATED)
     for fn in required+optional:
@@ -22,12 +23,20 @@ def build_zip(fname):
             print("Adding {0}...".format(fn))
             z.write(fn)
         else:
-            print("Not found {0}...".format(fn))
+            if fn in required:
+                msg = "REQUIRED FILE "
+                required_missing += 1
+            else:
+                msg = ""
+            print("{0}Not found {1}...".format(msg,fn))
+            
     z.close()
     print("Done!\n\n")
     call(['ls','-l',fname])
     print("\n")
     call(['unzip','-l',fname])
+    if required_missing > 0:
+        print("\n*** REQUIRED FILES MISSING: {0} ***".format(required_missing))
     exit(0)
 
 
