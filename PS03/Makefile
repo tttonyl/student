@@ -10,5 +10,5 @@ PYFILES = $(wildcard *.py)
 TXTFILES = $(wildcard *.txt)
 PDFFILES = $(wildcard *.pdf)
 
-ps03.zip: validator.py $(PYFILES) $(TXTFILES) $(PDFFILES)
+zip: validator.py $(PYFILES) $(TXTFILES) $(PDFFILES)
 	python validator.py --zip
