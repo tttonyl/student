@@ -9,7 +9,7 @@ from mrjob.job import MRJob
 from weblog import Weblog       # imports class defined in weblog.py
 import os
 
-class FwikiMaxmindJoin(MRJob):
+class First50Join(MRJob):
     def mapper(self, _, line):
         # Is this a weblog file, or a MaxMind GeoLite2 file?
         filename = mrjob.compat.jobconf_from_env("map.input.file")
@@ -55,4 +55,4 @@ class FwikiMaxmindJoin(MRJob):
 
 
 if __name__=="__main__":
-    FwikiMaxmindJoin50.run()
+    First50Join.run()
