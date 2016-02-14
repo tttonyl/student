@@ -20,9 +20,6 @@ class FwikiMaxmindJoin(MRJob):
             # Handle as a weblog file
             yield SOMETHING
         
-        # output <date,1>
-        yield CHANGEME
-
 
     def reducer(self, key, values):
         yield CHANGEME
