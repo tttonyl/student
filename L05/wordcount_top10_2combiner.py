@@ -43,7 +43,6 @@ class WordCountTopN(MRJob):
                    reducer=self.reducer),
 
             MRStep(mapper=self.topN_mapper,
-                   combiner=self.topN_combiner
                    reducer=self.topN_reducer) ]
 
 
