@@ -28,6 +28,10 @@ class WordCountTopN(MRJob):
     def topN_mapper(self,word,count):
         yield "Top"+str(TOPN), (count,word)
 
+    def topN_combiner(self,_,countsAndWords):
+        for countAndWord in heapq.nlargest(TOPN,countsAndWords):
+            yield _,countAndWord
+
     def topN_reducer(self,_,countsAndWords):
         for countAndWord in heapq.nlargest(TOPN,countsAndWords):
             yield _,countAndWord
@@ -39,6 +43,7 @@ class WordCountTopN(MRJob):
                    reducer=self.reducer),
 
             MRStep(mapper=self.topN_mapper,
+                   combiner=self.topN_combiner
                    reducer=self.topN_reducer) ]
 
 
