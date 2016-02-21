@@ -28,7 +28,7 @@ def build_zip(fname):
                 required_missing += 1
             else:
                 msg = ""
-            print("{0}Not found {1}...".format(msg,fn))
+            print("{0} Not found {1}...".format(msg, fn))
             
     z.close()
     print("Done!\n\n")
