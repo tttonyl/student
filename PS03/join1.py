@@ -9,6 +9,10 @@ from weblog import Weblog       # imports class defined in weblog.py
 import os
 
 class FwikiMaxmindJoin(MRJob):
+    # Handle non-ASCII characters in some of the forensicswiki lines
+    INTERNAL_PROTOCOL = mrjob.protocol.PickleValueProtocol
+    OUTPUT_PROTOCOL = mrjob.protocol.PickleValueProtocol
+
     def mapper(self, _, line):
         # Is this a weblog file, or a MaxMind GeoLite2 file?
         filename = mrjob.compat.jobconf_from_env("map.input.file")
