@@ -37,6 +37,7 @@ class Weblog(object):
         self.datetime = parser.parse(self.timestamp.replace(":", " ", 1)).isoformat()
         self.date = self.datetime[0:10]
         self.time = self.datetime[11:]
+
     def wikipage(self):
         for r in self.wikipage_pats:
             m = r.search(self.url)
