@@ -42,9 +42,9 @@ def build_zip(fname):
 
 def validate_file(z,fname,fbase,hook):
     import py_compile
+    errors = 0
     # Get the file contents
     contents = z.open(fname).read()
-
 
     # Unpack if the file is python or if we have a hook
     # If python file, see if it compiles
@@ -68,6 +68,7 @@ def validate_file(z,fname,fbase,hook):
 
     if hook:
         hook(fbase,fnew)
+    return errors
 
 
 def validate(zfile,hook=None):
@@ -87,12 +88,12 @@ def validate(zfile,hook=None):
             if fbase in required and p=='required':
                 print("Required file {0} present.".format(fbase))
                 required.remove(fbase)
-                validate_file(z,fname,fbase,hook)
+                errors += validate_file(z,fname,fbase,hook)
                 continue
             if fbase in optional and p=='optional':
                 print("Optional file: {0} present.".format(fbase))
                 optional.remove(fbase)
-                validate_file(z,fname,fbase,hook)
+                errors += validate_file(z,fname,fbase,hook)
                 continue
             if p=='unwanted':
                 print("Unwanted file: {0}".format(fname))
