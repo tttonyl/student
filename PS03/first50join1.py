@@ -34,7 +34,7 @@ class First50Join(MRJob):
             if o.wikipage() == "Main_Page":
                 yield o.ipaddr, line
 
-    # Perform a "first 50" operation in the  join operation.
+    # Perform a "first 50" operation in the  join operation
     def reducer_init(self):
         self.lowest = []
 
