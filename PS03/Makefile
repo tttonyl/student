@@ -14,7 +14,7 @@ zip: validator.py $(PYFILES) $(TXTFILES) $(PDFFILES)
 	python validator.py --zip
 
 #
-# Here are some sample Makefile recepies to get your started
+# Here are some sample Makefile recipes to get your started
 # 
 wordcount_top10.txt:
 	if [ ! -r $(HOME)/pg1184.txt ]; then wget http://www.simson.net/anly502/pg1184.txt -O $(HOME)/pg1184.txt; fi
