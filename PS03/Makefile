@@ -10,12 +10,17 @@ PYFILES = $(wildcard *.py)
 TXTFILES = $(wildcard *.txt)
 PDFFILES = $(wildcard *.pdf)
 
+info:
+	echo type '"make zip"' to make the zip file
+
 zip: validator.py $(PYFILES) $(TXTFILES) $(PDFFILES)
 	python validator.py --zip
 
 #
 # Here are some sample Makefile recipes to get your started
 # 
+
+# part 2: Getting Started with EMR
 wordcount_top10.txt:
 	if [ ! -r $(HOME)/pg1184.txt ]; then wget http://www.simson.net/anly502/pg1184.txt -O $(HOME)/pg1184.txt; fi
 	python wordcount_top10.py -r hadoop $(HOME)/pg1184.txt > wordcount_top10.txt
@@ -48,6 +53,5 @@ sortedjoinbycountry.txt: sortedjoinbycountry.py
 
 wikipedia_stats.txt: wikipedia_stats.py
 	python wikipedia_stats.py -r hadoop hdfs://user/hadoop/infiles/ > sortedjoinbycountry.txt
-
 
 
