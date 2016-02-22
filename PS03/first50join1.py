@@ -6,6 +6,7 @@
 import mrjob
 import mrjob.compat
 from mrjob.job import MRJob
+import sys
 
 from weblog import Weblog  # imports class defined in weblog.py
 
