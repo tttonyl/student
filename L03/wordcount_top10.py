@@ -1,5 +1,5 @@
 #!/usr/bin/env python2
-
+# -*- coding: utf-8 -*-
 # WordCount with distributed Top10 design pattern.
 
 import mrjob,os
